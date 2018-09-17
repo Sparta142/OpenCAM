@@ -20,7 +20,7 @@ const createWindow = async () => {
     useContentSize: true,
     resizable: false,
     show: false,
-    icon: `${__dirname}/icons/app.png`,
+    icon: `${__dirname}/icons/icon.png`,
   });
 
   // and load the index.html of the app.

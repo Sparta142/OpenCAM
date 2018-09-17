@@ -30,10 +30,11 @@
         ]
       },
       "electronPackagerConfig": {
-        "packageManager": "yarn"
+        "packageManager": "yarn",
+        "icon": "src/icons/icon"
       },
       "electronWinstallerConfig": {
-        "name": "opencam"
+        "name": "OpenCAM"
       },
       "electronInstallerDebian": {},
       "electronInstallerRedhat": {},
@@ -43,7 +44,7 @@
       },
       "windowsStoreConfig": {
         "packageName": "",
-        "name": "opencam"
+        "name": "OpenCAM"
       }
     }
   },
