@@ -15,8 +15,9 @@ if (isDevMode) {
 const createWindow = async () => {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 340,
-    height: 250,
+    width: 334,
+    height: 216,
+    useContentSize: true,
     resizable: false,
     show: false,
     icon: `${__dirname}/icons/app.png`,
