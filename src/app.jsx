@@ -12,7 +12,7 @@ class ResourceCounter extends Component {
   render() {
     return (
       <div className="resource-counter">
-        <span className="title">{this.props.title}</span>
+        <div className="title">{this.props.title}</div>
         <div className="description">
           <span className="value">{this.state.value}</span>
           <span className="unit">{this.props.unit}</span>

@@ -1,17 +1,17 @@
 @import '../node_modules/typeface-roboto/index.css'; // TODO: Better way to do this?
 
-$text-color: #f5f6fa;
+$text-color-primary: #f5f6fa;
 $text-color-secondary: #7f8fa6;
 
 $enabled-color: #487eb0;
 $disabled-color: #32577a;
 
-$bg-color: #2f3640;
+$background-color: #2f3640;
 
 body {
     font-family: Roboto, sans-serif;
-    color: $text-color;
-    background-color: $bg-color;
+    color: $text-color-primary;
+    background-color: $background-color;
     overflow: hidden;
     margin: 12px;
 }
@@ -60,17 +60,12 @@ input[type=range] {
     margin-bottom: 8px;
 
     & .title {
-        display: block;
         text-align: center;
         text-transform: uppercase;
         color: $text-color-secondary;
         font-size: .8em;
         font-weight: 500;
-        letter-spacing: .5px;
-    }
-
-    & .description {
-        display: inline-block;
+        letter-spacing: .2px;
     }
 
     & .value {
@@ -87,6 +82,7 @@ input[type=range] {
 }
 
 .slider {
+    // Redefine SCSS vars as CSS3 vars to allow JavaScript code to use them
     --enabled-color: #{$enabled-color};
     --disabled-color: #{$disabled-color};
 
