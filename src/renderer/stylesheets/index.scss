@@ -1,4 +1,4 @@
-@import '../node_modules/typeface-roboto/index.css'; // TODO: Better way to do this?
+@import '../../../node_modules/typeface-roboto/index.css';
 
 $text-color-primary: #f5f6fa;
 $text-color-secondary: #7f8fa6;
@@ -59,7 +59,7 @@ input[type=range] {
     text-align: center;
     margin-bottom: 8px;
 
-    & .title {
+    & .name {
         text-align: center;
         text-transform: uppercase;
         color: $text-color-secondary;
@@ -74,7 +74,7 @@ input[type=range] {
         text-align: end;
     }
 
-    & .unit {
+    & .suffix {
         margin-left: 3px;
         font-weight: 500;
         text-align: start;
