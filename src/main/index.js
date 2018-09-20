@@ -142,12 +142,14 @@ try {
     kraken.connect();
 
     // TODO: remember to unsubscribe when kraken disconnected
-    store.subscribe(() => {
+    const unsubscribe = store.subscribe(() => {
         const state = store.getState();
 
         kraken.pumpSetpoint = state.settings.pumpSetpoint;
         kraken.fanSetpoint = state.settings.fanSetpoint;
     });
+
+    kraken.on('disconnect', () => unsubscribe());
 } catch (e) {
     dialog.showErrorBox(e.name, e.message);
     app.quit();

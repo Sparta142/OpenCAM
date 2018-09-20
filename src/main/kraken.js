@@ -46,6 +46,8 @@ export default class Kraken extends EventEmitter {
             this.deviceInterface = null;
             this.device = null;
         });
+
+        this.emit('disconnect');
     }
 
     // https://github.com/jaksi/leviathan/blob/master/PROTOCOL.md#communication
