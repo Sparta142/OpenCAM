@@ -1,10 +1,12 @@
 import path from 'path';
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, dialog } from 'electron';
 import installExtension, { REACT_DEVELOPER_TOOLS } from 'electron-devtools-installer';
 import { forwardToRenderer, triggerAlias, replayActionMain } from 'electron-redux';
 import { combineReducers, createStore, applyMiddleware } from 'redux';
 
 import * as reducers from '../shared/reducers';
+import { updateResources } from '../shared/actions';
+import Kraken from './kraken';
 
 // Redux
 const openCamApp = combineReducers(reducers);
@@ -33,6 +35,10 @@ const store = createStore(
                 suffix: '°C',
             },
         },
+        settings: {
+            pumpSetpoint: 100,
+            fanSetpoint: 100,
+        },
     },
     applyMiddleware(
         triggerAlias,
@@ -45,6 +51,9 @@ replayActionMain(store);
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
+
+// Handle to the NZXT Kraken device
+let kraken;
 
 const createWindow = async () => {
     // Create the browser window.
@@ -108,5 +117,38 @@ app.on('activate', () => {
     }
 });
 
+app.on('quit', () => {
+    // Cleanly disconnect from the Kraken device.
+    if (kraken) {
+        kraken.disconnect();
+        kraken = null;
+    }
+})
+
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
+
+// Set up the Kraken device.
+try {
+    kraken = new Kraken();
+
+    kraken.on('data', (data) => {
+        store.dispatch(updateResources({
+            fanSpeed: { value: data.fanSpeed },
+            pumpSpeed: { value: data.pumpSpeed },
+            liquidTemp: { value: data.liquidTemp },
+        }));
+    });
+    kraken.connect();
+
+    // TODO: remember to unsubscribe when kraken disconnected
+    store.subscribe(() => {
+        const state = store.getState();
+
+        kraken.pumpSetpoint = state.settings.pumpSetpoint;
+        kraken.fanSetpoint = state.settings.fanSetpoint;
+    });
+} catch (e) {
+    dialog.showErrorBox(e.name, e.message);
+    app.quit();
+}

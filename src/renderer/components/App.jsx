@@ -9,8 +9,22 @@ export default class App extends Component {
                 <ResourceCounterList />
 
                 <div className="sliders">
-                    <Slider title="Set fan speed" suffix="%" min={30} max={100} initialValue={100} />
-                    <Slider title="Set pump speed" suffix="%" min={30} max={100} initialValue={100} />
+                    <Slider
+                        title="Set fan speed"
+                        suffix="%"
+                        min={30}
+                        max={100}
+                        initialValue={100}
+                        settingName="fanSetpoint"
+                    />
+                    <Slider
+                        title="Set pump speed"
+                        suffix="%"
+                        min={30}
+                        max={100}
+                        initialValue={100}
+                        settingName="pumpSetpoint"
+                    />
                 </div>
             </div>
         );

@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-export default class Slider extends Component {
+import { changeSetting } from '../../shared/actions';
+
+class Slider extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
             value: props.initialValue,
         };
-
-        this.handleChange = this.handleChange.bind(this);
     }
 
     get background() {
@@ -26,7 +27,7 @@ export default class Slider extends Component {
         )`);
     }
 
-    handleChange(event) {
+    handleInput(event) {
         this.setState({
             value: event.target.value,
         });
@@ -46,7 +47,8 @@ export default class Slider extends Component {
                         min={this.props.min}
                         max={this.props.max}
                         value={this.state.value}
-                        onChange={this.handleChange}
+                        onInput={this.handleInput.bind(this)}
+                        onChange={this.props.handleChange.bind(this)(this.props.settingName)}
                         style={{ background: this.background }}
                     />
                 </label>
@@ -67,4 +69,16 @@ Slider.propTypes = {
     suffix: PropTypes.string,
     min: PropTypes.number,
     max: PropTypes.number,
+    settingName: PropTypes.string.isRequired,
 };
+
+function mapDispatchToProps(dispatch) {
+    return {
+        handleChange: (settingName) => (event) => {
+            const settingValue = Number(event.target.value);
+            dispatch(changeSetting(settingName, settingValue));
+        },
+    };
+}
+
+export default connect(null, mapDispatchToProps)(Slider);

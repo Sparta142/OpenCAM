@@ -1,4 +1,8 @@
-import { UPDATE_RESOURCES, REMOVE_RESOURCE } from './actions';
+import {
+    UPDATE_RESOURCES,
+    REMOVE_RESOURCE,
+    CHANGE_SETTING,
+ } from './actions';
 
 export function resources(state = {}, action) {
     const { type, payload } = action;
@@ -17,6 +21,20 @@ export function resources(state = {}, action) {
         case REMOVE_RESOURCE: {
             const newState = { ...state };
             delete newState[payload];
+
+            return newState;
+        }
+        default:
+            return state;
+    }
+}
+
+export function settings(state = {}, action) {
+    switch (action.type) {
+        case CHANGE_SETTING: {
+            const { settingName, settingValue } = action.payload;
+            const newState = { ...state };
+            newState[settingName] = settingValue;
 
             return newState;
         }
