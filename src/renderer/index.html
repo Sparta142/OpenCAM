@@ -13,7 +13,6 @@
     <script type="text/jsx">
         import React from 'react';
         import ReactDOM from 'react-dom';
-        import { AppContainer } from 'react-hot-loader';
         import { forwardToMain, replayActionRenderer, getInitialStateRenderer } from 'electron-redux';
         import { combineReducers, createStore, applyMiddleware } from 'redux';
         import { Provider } from 'react-redux';
@@ -38,24 +37,5 @@
             </Provider>,
             document.getElementById('root')
         );
-
-        /* const render = () => {
-            const App = require('./components/App').default;
-
-            ReactDOM.render(
-                <Provider store={store}>
-                    <AppContainer>
-                        <App />
-                    </AppContainer>
-                </Provider>,
-                document.getElementById('root')
-            );
-        }
-
-        render();
-        if (module.hot) {
-            module.hot.accept(render);
-        } */
-
     </script>
 </html>
