@@ -2,7 +2,7 @@ import { EventEmitter } from 'events';
 import { findByIds } from 'usb';
 
 export default class Kraken extends EventEmitter {
-    constructor(vendorId = 0x2433, productId = 0xb200 ) {
+    constructor(vendorId = 0x2433, productId = 0xb200) {
         super();
 
         this.device = findByIds(vendorId, productId);
@@ -57,13 +57,12 @@ export default class Kraken extends EventEmitter {
 
         this.inEndpoint.transfer(64, (_inEndpoint, data, error) => {
             if (error) {
-                console.log('Error: ', error);
                 return; // TODO
             }
 
             this.emit('data', {
-                pumpSpeed: 256 * data[8] + data[9],
-                fanSpeed: 256 * data[0] + data[1],
+                pumpSpeed: (256 * data[8]) + data[9],
+                fanSpeed: (256 * data[0]) + data[1],
                 liquidTemp: data[10],
             });
         });

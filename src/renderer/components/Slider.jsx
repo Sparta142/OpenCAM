@@ -11,6 +11,9 @@ class Slider extends Component {
         this.state = {
             value: props.initialValue,
         };
+
+        this.handleInput = this.handleInput.bind(this);
+        this.handleChange = this.props.handleChange.bind(this);
     }
 
     get background() {
@@ -47,8 +50,8 @@ class Slider extends Component {
                         min={this.props.min}
                         max={this.props.max}
                         value={this.state.value}
-                        onInput={this.handleInput.bind(this)}
-                        onChange={this.props.handleChange.bind(this)(this.props.settingName)}
+                        onInput={this.handleInput}
+                        onChange={this.handleChange(this.props.settingName)}
                         style={{ background: this.background }}
                     />
                 </label>
@@ -70,11 +73,12 @@ Slider.propTypes = {
     min: PropTypes.number,
     max: PropTypes.number,
     settingName: PropTypes.string.isRequired,
+    handleChange: PropTypes.func.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {
     return {
-        handleChange: (settingName) => (event) => {
+        handleChange: settingName => (event) => {
             const settingValue = Number(event.target.value);
             dispatch(changeSetting(settingName, settingValue));
         },
