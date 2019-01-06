@@ -7,6 +7,7 @@ import { combineReducers, createStore, applyMiddleware } from 'redux';
 import * as reducers from '../shared/reducers';
 import { updateResources } from '../shared/actions';
 import Kraken from './kraken';
+import connect from './coretemp';
 
 // Redux
 const openCamApp = combineReducers(reducers);
@@ -153,4 +154,18 @@ try {
 } catch (e) {
     dialog.showErrorBox(e.name, e.message);
     app.quit();
+}
+
+// Try to connect to the Core Temp remote server
+try {
+    connect(5200, (data) => {
+        const temps = data.CpuInfo.fTemp;
+        const averageTemp = temps.reduce((a, b) => a + b) / temps.length;
+
+        store.dispatch(updateResources({
+            cpuTemp: { value: Math.round(averageTemp) },
+        }));
+    });
+} catch (e) {
+    dialog.showErrorBox('Unable to connect to the Core Temp remote server.');
 }
