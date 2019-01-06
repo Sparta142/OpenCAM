@@ -27,6 +27,8 @@ export default class Kraken extends EventEmitter {
         this.deviceInterface = this.device.interface(0);
         this.deviceInterface.claim();
 
+        this.device.reset();
+
         // Initialization
         this.device.controlTransfer(0x40, 2, 0x0002, 0, Buffer.alloc(0));
 
