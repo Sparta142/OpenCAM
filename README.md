@@ -27,3 +27,8 @@ Current feature list:
 - Liquid temperature (in degrees Celsius) as reported by Kraken
 - Manual setting of fan and pump speed, as a percentage from 30% to 100% of
   max speed.
+
+## Screenshot
+OpenCAM running on Windows 10:
+
+![](https://i.imgur.com/rra23CF.png)
