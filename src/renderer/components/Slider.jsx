@@ -9,7 +9,7 @@ class Slider extends Component {
         super(props);
 
         this.state = {
-            value: props.initialValue,
+            value: props.settings[props.settingName],
         };
 
         this.handleInput = this.handleInput.bind(this);
@@ -64,17 +64,24 @@ Slider.defaultProps = {
     suffix: '',
     min: 0,
     max: 100,
+    settings: {},
 };
 
 Slider.propTypes = {
     title: PropTypes.string.isRequired,
-    initialValue: PropTypes.number.isRequired,
     suffix: PropTypes.string,
     min: PropTypes.number,
     max: PropTypes.number,
     settingName: PropTypes.string.isRequired,
+    settings: PropTypes.object,
     handleChange: PropTypes.func.isRequired,
 };
+
+function mapStateToProps(state) {
+    return {
+        settings: state.settings,
+    };
+}
 
 function mapDispatchToProps(dispatch) {
     return {
@@ -85,4 +92,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(null, mapDispatchToProps)(Slider);
+export default connect(mapStateToProps, mapDispatchToProps)(Slider);

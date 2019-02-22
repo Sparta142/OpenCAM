@@ -3,9 +3,10 @@ import { app, BrowserWindow, dialog } from 'electron';
 import installExtension, { REACT_DEVELOPER_TOOLS } from 'electron-devtools-installer';
 import { forwardToRenderer, triggerAlias, replayActionMain } from 'electron-redux';
 import { combineReducers, createStore, applyMiddleware } from 'redux';
+import settings from 'electron-settings';
 
 import * as reducers from '../shared/reducers';
-import { updateResources } from '../shared/actions';
+import { updateResources, changeSetting } from '../shared/actions';
 import Kraken from './kraken';
 import connect from './coretemp';
 
@@ -74,6 +75,20 @@ const createWindow = async () => {
     // Remove the menu bar (File, Edit, View, Window, Help).
     mainWindow.setMenu(null);
 
+    // Restore the window's last position if it had one
+    if (settings.has('window.position')) {
+        const [x, y] = settings.get('window.position');
+        mainWindow.setPosition(x, y, false);
+    }
+
+    // Restore the "settings" if they were set previously
+    if (settings.has('store.settings')) {
+        const { pumpSetpoint, fanSetpoint } = settings.get('store.settings');
+
+        store.dispatch(changeSetting('pumpSetpoint', pumpSetpoint));
+        store.dispatch(changeSetting('fanSetpoint', fanSetpoint));
+    }
+
     // Open the DevTools.
     const isDevMode = process.execPath.match(/[\\/]electron/);
 
@@ -81,6 +96,15 @@ const createWindow = async () => {
         await installExtension(REACT_DEVELOPER_TOOLS);
         mainWindow.webContents.openDevTools();
     }
+
+    // Emitted when the window is going to be closed.
+    mainWindow.on('close', () => {
+        // Save the window's position
+        settings.set('window.position', mainWindow.getPosition());
+
+        // Save the current "settings"
+        settings.set('store.settings', store.getState().settings);
+    });
 
     // Emitted when the window is closed.
     mainWindow.on('closed', () => {

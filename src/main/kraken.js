@@ -11,7 +11,7 @@ export default class Kraken extends EventEmitter {
         this.pumpSetpoint = 100;
         this.fanSetpoint = 100;
 
-        this.intervalId = null;
+        this.interval = null;
     }
 
     get inEndpoint() {
@@ -33,7 +33,7 @@ export default class Kraken extends EventEmitter {
         this.device.controlTransfer(0x40, 2, 0x0002, 0, Buffer.alloc(0));
 
         // Update the device settings once per second
-        this.intervalId = setInterval(this.communicate.bind(this), 1000);
+        this.interval = setInterval(this.communicate.bind(this), 1000);
     }
 
     disconnect() {
@@ -54,6 +54,10 @@ export default class Kraken extends EventEmitter {
 
     // https://github.com/jaksi/leviathan/blob/master/PROTOCOL.md#communication
     communicate() {
+        if (this.device === null) {
+            return;
+        }
+
         this.device.controlTransfer(0x40, 2, 0x0001, 0, Buffer.alloc(0));
 
         this.outEndpoint.transfer(Buffer.from([0x13, this.pumpSetpoint]));
