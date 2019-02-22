@@ -25,10 +25,11 @@ Current feature list:
 - Fan speed as reported by Kraken
 - Pump speed as reported by Kraken
 - Liquid temperature (in degrees Celsius) as reported by Kraken
+- CPU temperature as reported by [Core Temp](https://www.alcpu.com/CoreTemp/)
 - Manual setting of fan and pump speed, as a percentage from 30% to 100% of
   max speed.
 
 ## Screenshot
 OpenCAM running on Windows 10:
 
-![](https://i.imgur.com/rra23CF.png)
+![](https://i.imgur.com/sA6ZYig.png)
